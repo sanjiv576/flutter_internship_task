@@ -2,9 +2,10 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:online_store/views/singel_product_view.dart';
 
 import 'home_view.dart';
-import 'singel_product_view.dart';
+import 'search_view.dart';
 
 // select index as the user clicks
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
@@ -26,27 +27,34 @@ class _BottomNavigationViewState extends ConsumerState<BottomNavigationView> {
 
   final List<Widget> _screens = [
     const HomeView(),
-    const SingleProductView(),
-  ];
+    const SearchView(),
 
+    //TODO: which is going to be deleted later on
+    const HomeView(),
+  ];
 
   // style for botttom navigation bar
   final List<CurvedNavigationBarItem> _navigationIcons = [
     const CurvedNavigationBarItem(
         label: 'Home',
         labelStyle: TextStyle(color: Colors.black),
-
         child: Icon(
           Icons.home,
           color: Colors.black,
         )),
     const CurvedNavigationBarItem(
-        label: 'Shopping',
+        label: 'Search',
         labelStyle: TextStyle(color: Colors.black),
         child: Icon(
-          Icons.person,
+          Icons.search,
           color: Colors.black,
-
+        )),
+    const CurvedNavigationBarItem(
+        label: 'Single Product',
+        labelStyle: TextStyle(color: Colors.black),
+        child: Icon(
+          Icons.production_quantity_limits,
+          color: Colors.black,
         )),
   ];
 
@@ -57,7 +65,6 @@ class _BottomNavigationViewState extends ConsumerState<BottomNavigationView> {
           items: _navigationIcons,
           index: ref.watch(selectedIndexProvider),
           onTap: _onTapItem,
-
           backgroundColor: Colors.black,
           animationCurve: Curves.easeInSine,
           animationDuration: const Duration(milliseconds: 300),
