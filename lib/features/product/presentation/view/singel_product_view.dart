@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:online_store/models/product.dart';
-import 'package:online_store/services/networking.dart';
+import 'package:online_store/features/product/domain/entity/product.dart';
+import 'package:online_store/features/product/data/data_source/remote/networking.dart';
 
 class SingleProductView extends StatefulWidget {
   const SingleProductView({super.key});

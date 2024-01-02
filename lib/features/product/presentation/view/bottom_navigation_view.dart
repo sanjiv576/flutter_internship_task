@@ -2,10 +2,10 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:online_store/views/singel_product_view.dart';
+import 'package:online_store/features/product/presentation/view/singel_product_view.dart';
 
-import 'home_view.dart';
-import 'search_view.dart';
+import 'nav_bar/home_view.dart';
+import 'nav_bar/search_view.dart';
 
 // select index as the user clicks
 final selectedIndexProvider = StateProvider<int>((ref) => 0);

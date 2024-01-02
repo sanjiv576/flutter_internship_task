@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../router/app_routes.dart';
-import '../utils/device_size.dart';
+import '../../../../config/router/app_routes.dart';
+import '../../../../core/utils/device_size.dart';
 
 class SplashView extends ConsumerStatefulWidget {
   const SplashView({super.key});

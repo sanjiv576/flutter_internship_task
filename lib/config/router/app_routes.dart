@@ -1,9 +1,9 @@
 import 'package:online_store/features/splash/presentation/view/splash_view.dart';
 
-import '../features/product/presentation/view/bottom_navigation_view.dart';
-import '../features/product/presentation/view/nav_bar/home_view.dart';
-import '../features/product/presentation/view/nav_bar/search_view.dart';
-import '../features/product/presentation/view/singel_product_view.dart';
+import '../../features/product/presentation/view/bottom_navigation_view.dart';
+import '../../features/product/presentation/view/nav_bar/home_view.dart';
+import '../../features/product/presentation/view/nav_bar/search_view.dart';
+import '../../features/product/presentation/view/singel_product_view.dart';
 
 class AppRoutes {
   // avoid making constructor

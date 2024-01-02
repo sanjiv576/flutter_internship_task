@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../services/networking.dart';
-import '../widgets/categories_widget.dart';
-import '../widgets/product_card_widget.dart';
+import '../../../data/data_source/remote/networking.dart';
+import '../../widget/categories_widget.dart';
+import '../../widget/product_card_widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

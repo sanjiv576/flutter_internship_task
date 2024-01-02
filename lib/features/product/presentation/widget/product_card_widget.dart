@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../router/app_routes.dart';
+import '../../../../config/router/app_routes.dart';
 
 class ProductCard extends StatelessWidget {
   ProductCard({

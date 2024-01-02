@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:online_store/utils/device_size.dart';
+import 'package:online_store/core/utils/device_size.dart';
 
-import '../services/networking.dart';
+import '../../../data/data_source/remote/networking.dart';
 
 class SearchView extends ConsumerStatefulWidget {
   const SearchView({super.key});
