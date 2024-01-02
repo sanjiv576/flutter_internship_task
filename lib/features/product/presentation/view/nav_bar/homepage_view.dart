@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,13 +23,13 @@ class _HomeState extends ConsumerState<HomepageView> {
   String categoryUrl = 'https://fakestoreapi.com/products/categories';
   late Future<List<dynamic>>? _categoriesFuture;
 
-  late Future<List<dynamic>>? _products;
+  // late Future<List<dynamic>>? _products;
 
   @override
   void initState() {
     super.initState();
 
-    _products = getProductData();
+    // _products = getProductData();
     _categoriesFuture = getCategoryData();
   }
 
@@ -46,24 +45,24 @@ class _HomeState extends ConsumerState<HomepageView> {
     }
   }
 
-  Future<List<dynamic>> getProductData() async {
-    OnlineStore onlineStore =
-        OnlineStore(url: 'https://fakestoreapi.com/products');
+  // Future<List<dynamic>> getProductData() async {
+  //   OnlineStore onlineStore =
+  //       OnlineStore(url: 'https://fakestoreapi.com/products');
 
-    var products = await onlineStore.fetchProductData();
+  //   var products = await onlineStore.fetchProductData();
 
-    if (products != null) {
-      // for (int i = 0; i < products.length; i++) {
-      //   print('id: ${products[i].id}');
-      //   print('Product ${i + 1}: ${products[i]}');
-      //   print('---------------');
-      // }
+  //   if (products != null) {
+  //     // for (int i = 0; i < products.length; i++) {
+  //     //   print('id: ${products[i].id}');
+  //     //   print('Product ${i + 1}: ${products[i]}');
+  //     //   print('---------------');
+  //     // }
 
-      // _products = products;
-      return products;
-    }
-    return [];
-  }
+  //     // _products = products;
+  //     return products;
+  //   }
+  //   return [];
+  // }
 
   final _verticalGap = const SizedBox(height: 30);
   final _horizontalGap = const SizedBox(width: 20);
@@ -100,6 +99,15 @@ class _HomeState extends ConsumerState<HomepageView> {
                 ),
               ),
               _verticalGap,
+               if (productState.isLoading) ...{
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              } else if (productState.error != null) ...{
+                Center(
+                  child: Text(productState.error.toString()),
+                )
+              } else ...{
               CategoriesWidget(
                 categoriesFuture: _categoriesFuture,
                 horizontalGap: _horizontalGap,
@@ -107,6 +115,7 @@ class _HomeState extends ConsumerState<HomepageView> {
                   height: 10,
                 ),
               ),
+              },
               _verticalGap,
               const Text(
                 'All Products',

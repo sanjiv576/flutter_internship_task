@@ -28,8 +28,7 @@ class ProductRemoteRepositoryImpl implements IProductRepository {
 
   @override
   Future<Either<Failure, List<String>>> getAllCategories() {
-    // TODO: implement getAllCategories
-    throw UnimplementedError();
+   return productRemoteDataSource.getAllCategories();
   }
 
   @override

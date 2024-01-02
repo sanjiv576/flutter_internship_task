@@ -16,9 +16,10 @@ class ProductViewModel extends StateNotifier<ProductState> {
       : super(ProductState.initial()) {
     //  initially get all products
     getAllProducts();
+    // getAllCategories();
   }
 
-  // get all restaurants from usecase
+  // get all products from usecase
   Future<void> getAllProducts() async {
     // load the screen first
     state = state.copyWith(isLoading: true);
@@ -37,6 +38,28 @@ class ProductViewModel extends StateNotifier<ProductState> {
       // close loading
       state =
           state.copyWith(isLoading: false, error: null, products: gotProducts);
+    });
+  }
+
+  // get all restaurants from usecase
+  Future<void> getAllCategories() async {
+    // load the screen first
+    state = state.copyWith(isLoading: true);
+
+    // get the data
+    var data = await productUseCase.getAllCategories();
+
+    // get the failure
+    data.fold((failedMessage) {
+      // close loading
+
+      state = state.copyWith(isLoading: false, error: failedMessage.toString());
+    },
+        // get the categories
+        (gotCategories) {
+      // close loading
+      state = state.copyWith(
+          isLoading: false, error: null, categories: gotCategories);
     });
   }
 }

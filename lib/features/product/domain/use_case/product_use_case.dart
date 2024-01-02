@@ -21,4 +21,8 @@ class ProductUseCase {
   Future<Either<Failure, List<ProductEntity>>> getAllProducts() {
     return iProductRepository.getAllProducts();
   }
+  // get all categories
+  Future<Either<Failure, List<String>>> getAllCategories() {
+    return iProductRepository.getAllCategories();
+  }
 }

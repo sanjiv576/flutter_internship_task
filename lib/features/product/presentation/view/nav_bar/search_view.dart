@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:online_store/core/utils/device_size.dart';
 
-import '../../../data/data_source/remote/networking.dart';
+import '../../../../../config/router/app_routes.dart';
+import '../../../../../core/utils/device_size.dart';
+import '../../viewmodel/product_viewmodel.dart';
+import '../../widget/search_bar_widget.dart';
 
 class SearchView extends ConsumerStatefulWidget {
   const SearchView({super.key});
@@ -15,7 +17,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
   double width = DeviceSize.width;
   double height = DeviceSize.height;
 
-  late List<dynamic>? _products;
+  // late List<dynamic>? _products;
 
   final _searchController = TextEditingController();
 
@@ -30,7 +32,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
 
   @override
   void initState() {
-    getProductData();
+    // getProductData();
     _searchController.addListener(_onSearching);
     super.initState();
   }
@@ -46,32 +48,13 @@ class _SearchViewState extends ConsumerState<SearchView> {
       setState(() {
         _isInitializeSearching = true;
         // Filter products by name or category
-        _filteredProducts = _products!
+        _filteredProducts = ref
+            .watch(productViewModelProvider)
+            .products!
             .where((product) =>
                 product.title.toLowerCase().contains(searchQuery) ||
                 product.category.toLowerCase().contains(searchQuery))
             .toList();
-      });
-    }
-  }
-
-
-
-  Future<void> getProductData() async {
-    OnlineStore onlineStore =
-        OnlineStore(url: 'https://fakestoreapi.com/products');
-
-    var products = await onlineStore.fetchProductData();
-
-    if (products != null) {
-      for (int i = 0; i < products.length; i++) {
-        print('id: ${products[i].id}');
-        print('Product ${i + 1}: ${products[i]}');
-        print('---------------');
-      }
-
-      setState(() {
-        _products = products;
       });
     }
   }
@@ -103,6 +86,9 @@ class _SearchViewState extends ConsumerState<SearchView> {
                           return GestureDetector(
                               onTap: () {
                                 print('Product name ; ${singleProduct.title}');
+                                Navigator.pushNamed(
+                                    context, AppRoutes.singleProductRoute,
+                                    arguments: singleProduct);
                               },
                               child: Card(
                                 elevation: 3,
@@ -176,51 +162,12 @@ class _SearchViewState extends ConsumerState<SearchView> {
                         },
                       )
                     : const Center(
-                        child: Text('No data'),
+                        child: Text('No data found'),
                       ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class SearchBarWidget extends StatelessWidget {
-  final TextEditingController controller;
-  final Widget leading;
-  final String hintText;
-
-  const SearchBarWidget({
-    super.key,
-    required this.controller,
-    required this.leading,
-    required this.hintText,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Row(
-        children: [
-          leading,
-          const SizedBox(width: 8.0),
-          Expanded(
-            child: TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                hintText: hintText,
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
