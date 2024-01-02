@@ -55,6 +55,8 @@ class _SearchViewState extends ConsumerState<SearchView> {
     }
   }
 
+
+
   Future<void> getProductData() async {
     OnlineStore onlineStore =
         OnlineStore(url: 'https://fakestoreapi.com/products');

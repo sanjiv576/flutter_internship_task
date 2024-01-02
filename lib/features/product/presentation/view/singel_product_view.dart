@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:online_store/features/product/domain/entity/product.dart';
+import 'package:online_store/features/product/domain/entity/product_entity.dart';
 import 'package:online_store/features/product/data/data_source/remote/networking.dart';
 
 class SingleProductView extends StatefulWidget {

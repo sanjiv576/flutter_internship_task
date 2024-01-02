@@ -2,6 +2,7 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:online_store/features/product/presentation/view/nav_bar/homepage_view.dart';
 import 'package:online_store/features/product/presentation/view/singel_product_view.dart';
 
 import 'nav_bar/home_view.dart';
@@ -26,7 +27,7 @@ class _BottomNavigationViewState extends ConsumerState<BottomNavigationView> {
   // all  widgets in a list
 
   final List<Widget> _screens = [
-    const HomeView(),
+    const HomepageView(),
     const SearchView(),
 
     //TODO: which is going to be deleted later on

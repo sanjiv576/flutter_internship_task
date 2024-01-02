@@ -1,17 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data/data_source/remote/networking.dart';
+import '../../viewmodel/product_viewmodel.dart';
 import '../../widget/categories_widget.dart';
 import '../../widget/product_card_widget.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeState();
+  ConsumerState<HomeView> createState() => _HomeState();
 }
 
-class _HomeState extends State<HomeView> {
+class _HomeState extends ConsumerState<HomeView> {
   // var _products;
 
   late double width;
@@ -72,6 +76,12 @@ class _HomeState extends State<HomeView> {
     height = MediaQuery.of(context).size.height;
     print('Width: $width');
     print('Height: $height');
+
+    final productState = ref.watch(productViewModelProvider);
+    if (productState.products != [] && productState.products != null) {
+      log('Total len of products from clean arch: ${productState.products!.length}');
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(

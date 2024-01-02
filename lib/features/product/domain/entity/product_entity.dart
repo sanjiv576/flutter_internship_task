@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-// product is child class  of Equatable to create a single instance for lowering memory consumption
-class Product extends Equatable {
+// ProductEntity is child class  of Equatable to create a single instance for lowering memory consumption
+class ProductEntity extends Equatable {
   final int id;
   final String title;
   final double price;
@@ -10,7 +10,7 @@ class Product extends Equatable {
   final String image;
   final double rating;
 
-  const Product({
+  const ProductEntity({
     required this.id,
     required this.title,
     required this.price,
@@ -20,9 +20,9 @@ class Product extends Equatable {
     required this.rating,
   });
 
-// convert JSON to product model entity
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
+// convert JSON to ProductEntity model entity
+  factory ProductEntity.fromJson(Map<String, dynamic> json) {
+    return ProductEntity(
       id: json['id'],
       title: json['title'],
       price: json['price'].toDouble(),

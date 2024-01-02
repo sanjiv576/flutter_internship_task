@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../../domain/entity/product.dart';
+import '../../../domain/entity/product_entity.dart';
 
 class OnlineStore {
   String url;
@@ -11,7 +11,7 @@ class OnlineStore {
   // fetch all products
   Future fetchProductData() async {
     try {
-      // String url = 'https://fakestoreapi.com/products';
+      // String url = 'https://fakestoreapi.com/ProductEntitys';
 
       http.Response res = await http.get(Uri.parse(url));
 
@@ -22,12 +22,12 @@ class OnlineStore {
         // decode the json data
         var decodedData = jsonDecode(data);
 
-        // convert json into a list of product entity
-        List<Product> productList = (decodedData as List<dynamic>)
-            .map<Product>((json) => Product.fromJson(json))
+        // convert json into a list of ProductEntity entity
+        List<ProductEntity> ProductEntityList = (decodedData as List<dynamic>)
+            .map<ProductEntity>((json) => ProductEntity.fromJson(json))
             .toList();
 
-        return productList;
+        return ProductEntityList;
       } else {
         print('Error, status code: ${res.statusCode} ');
       }
