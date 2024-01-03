@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -73,7 +75,10 @@ class _SearchViewState extends ConsumerState<SearchView> {
             children: [
               SearchBarWidget(
                 controller: _searchController,
-                leading: const Icon(Icons.search),
+                leading: const Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
                 hintText: 'Enter product by name or category',
               ),
               _verticalGap,
@@ -85,7 +90,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                           var singleProduct = _filteredProducts[index];
                           return GestureDetector(
                               onTap: () {
-                                print('Product name ; ${singleProduct.title}');
+                                log('Product name ; ${singleProduct.title}');
                                 Navigator.pushNamed(
                                     context, AppRoutes.singleProductRoute,
                                     arguments: singleProduct);

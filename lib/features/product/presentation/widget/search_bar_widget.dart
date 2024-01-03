@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class SearchBarWidget extends StatelessWidget {
@@ -28,8 +27,10 @@ class SearchBarWidget extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: controller,
+              style: const TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 hintText: hintText,
+                hintStyle: const TextStyle(color: Colors.black),
                 border: InputBorder.none,
               ),
             ),
