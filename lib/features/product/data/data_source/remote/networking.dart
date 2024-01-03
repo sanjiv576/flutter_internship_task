@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
@@ -23,16 +24,16 @@ class OnlineStore {
         var decodedData = jsonDecode(data);
 
         // convert json into a list of ProductEntity entity
-        List<ProductEntity> ProductEntityList = (decodedData as List<dynamic>)
+        List<ProductEntity> productEntityList = (decodedData as List<dynamic>)
             .map<ProductEntity>((json) => ProductEntity.fromJson(json))
             .toList();
 
-        return ProductEntityList;
+        return productEntityList;
       } else {
-        print('Error, status code: ${res.statusCode} ');
+        log('Error, status code: ${res.statusCode} ');
       }
     } catch (e) {
-      print('Error: $e');
+      log('Error: $e');
       return [];
     }
   }
