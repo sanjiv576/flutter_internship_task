@@ -1,10 +1,9 @@
-import 'package:online_store/features/product/presentation/view/nav_bar/homepage_view.dart';
-import 'package:online_store/features/splash/presentation/view/splash_view.dart';
-
 import '../../features/product/presentation/view/bottom_navigation_view.dart';
-import '../../features/product/presentation/view/nav_bar/home_view.dart';
+import '../../features/product/presentation/view/nav_bar/homepage_view.dart';
 import '../../features/product/presentation/view/nav_bar/search_view.dart';
+import '../../features/product/presentation/view/nav_bar/setting_view.dart';
 import '../../features/product/presentation/view/singel_product_view.dart';
+import '../../features/splash/presentation/view/splash_view.dart';
 
 class AppRoutes {
   // avoid making constructor
@@ -16,6 +15,7 @@ class AppRoutes {
   static const String shoppingCartRoute = '/shoppingCart';
   static const String searchRoute = '/search';
   static const String singleProductRoute = '/singleProduct';
+  static const String settingRoute = '/setting';
 
   static getAppRoutes() {
     return {
@@ -24,6 +24,7 @@ class AppRoutes {
       navigationRoute: (context) => const BottomNavigationView(),
       searchRoute: (context) => const SearchView(),
       splashRoute: (context) => const SplashView(),
+      settingRoute: (context) => const SettingView(),
     };
   }
 }
