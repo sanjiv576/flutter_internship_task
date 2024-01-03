@@ -37,10 +37,10 @@ class _HomeState extends ConsumerState<HomeView> {
     try {
       OnlineStore onlineStore = OnlineStore(url: categoryUrl);
       List<dynamic> categories = await onlineStore.fetchCategoryData();
-      print('Category length: ${categories.length}');
+      log('Category length: ${categories.length}');
       return categories;
     } catch (err) {
-      print('Error ca: $err');
+      log('Error ca: $err');
       return []; // Handle the error appropriately
     }
   }
@@ -74,8 +74,8 @@ class _HomeState extends ConsumerState<HomeView> {
     // get sizes of the device, then, send to device size class
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    print('Width: $width');
-    print('Height: $height');
+    log('Width: $width');
+    log('Height: $height');
 
     final productState = ref.watch(productViewModelProvider);
     if (productState.products != [] && productState.products != null) {
