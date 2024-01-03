@@ -13,5 +13,5 @@ class ApiEndpoints {
   static const String getSingleProductById = '$baseUrl/:productId';
 
   // for all categories
-  static const String getAllCategories = '$baseUrl/categories';
+  static const String getAllCategories = '$getAllProducts/categories';
 }
