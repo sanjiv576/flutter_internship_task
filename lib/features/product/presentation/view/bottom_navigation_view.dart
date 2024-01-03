@@ -3,6 +3,7 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:online_store/features/product/presentation/view/nav_bar/homepage_view.dart';
+import 'package:online_store/features/product/presentation/view/nav_bar/setting_view.dart';
 import 'package:online_store/features/product/presentation/view/singel_product_view.dart';
 
 import 'nav_bar/home_view.dart';
@@ -29,9 +30,7 @@ class _BottomNavigationViewState extends ConsumerState<BottomNavigationView> {
   final List<Widget> _screens = [
     const HomepageView(),
     const SearchView(),
-
-    //TODO: which is going to be deleted later on
-    const HomeView(),
+    const SettingView(),
   ];
 
   // style for botttom navigation bar
@@ -51,10 +50,10 @@ class _BottomNavigationViewState extends ConsumerState<BottomNavigationView> {
           color: Colors.black,
         )),
     const CurvedNavigationBarItem(
-        label: 'Single Product',
+        label: 'Setting',
         labelStyle: TextStyle(color: Colors.black),
         child: Icon(
-          Icons.production_quantity_limits,
+          Icons.settings,
           color: Colors.black,
         )),
   ];
