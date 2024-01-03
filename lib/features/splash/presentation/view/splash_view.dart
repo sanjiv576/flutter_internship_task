@@ -37,9 +37,19 @@ class _SplashViewState extends ConsumerState<SplashView> {
 
     _initializeDeviceSize(width: width, height: height);
 
-    return const Scaffold(
-      body: Center(
-        child: Text('Online Store'),
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('assets/images/app_icon.png'),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(
+            'Developed by Sanjiv Shrestha',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+        ],
       ),
     );
   }
