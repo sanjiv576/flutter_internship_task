@@ -1,14 +1,16 @@
+import 'dart:developer';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:online_store/core/common/widget/snackbar_messages.dart';
 import 'package:online_store/features/shopping/domain/entity/shopping_entity.dart';
 import 'package:online_store/features/shopping/presentation/state/shopping_cart_state.dart';
-import 'package:uuid/uuid.dart';
+import 'package:online_store/features/shopping/presentation/viewmodel/shopping_cart_viewmodel.dart';
 
-import '../../domain/entity/product_entity.dart';
 import '../widget/button_widget.dart';
 
 final counterProvider = StateProvider<int>((ref) => 0);
@@ -28,7 +30,6 @@ class _SingleProductViewState extends ConsumerState<SingleProductView> {
   void didChangeDependencies() {
     _product = ModalRoute.of(context)!.settings.arguments as dynamic;
 
-    print('Prod name: ${_product.title}');
     super.didChangeDependencies();
 
     //  reset counter when navigating to the next screen
@@ -66,51 +67,36 @@ class _SingleProductViewState extends ConsumerState<SingleProductView> {
     }
   }
 
-  void _submit(ref) {
-    if (ref.watch(counterProvider) == 0) {
-      showSnackbarMsg(
-        context: context,
-        targetTitle: 'Error',
-        targetMessage: 'Please, select the quantity',
-        type: ContentType.failure,
-      );
-    }
-  }
+  void _addToCart() {
+    final quantityValue = ref.watch(counterProvider);
+    final double totalPrice = _product.price * quantityValue;
+    Cart addedCart = Cart(
+      productId: _product.id.toString(),
+      productName: _product.title.toString(),
+      quantity: quantityValue,
+      amount: totalPrice,
+    );
+    log('Cart: $addedCart');
 
-  ShoppingCartEntity? shoppingCartEntity;
+    double previousAmount = ShoppingCartState.shoppingCartEntity.totalAmount;
 
-  @override
-  void initState() {
-    super.initState();
-    // _resetCounter();
+    ShoppingCartState.shoppingCartEntity = ShoppingCartEntity(
+        id: 'd',
+        cart: [...ShoppingCartState.shoppingCartEntity.cart, addedCart],
+        totalAmount: totalPrice + previousAmount);
 
-    shoppingCartEntity = ShoppingCartState.shoppingCart;
-  }
+    log('Shopping Cart: ${ShoppingCartState.shoppingCartEntity}');
 
-  void _addToCart(ProductEntity productToAdd) {
-    if (shoppingCartEntity!.proudctList.isEmpty) {
-      // If the product list is empty, create a new ShoppingCartEntity with the provided product
-      shoppingCartEntity = ShoppingCartEntity(
-        proudctList: [productToAdd],
-        totalAmount: productToAdd.price,
-      );
-    } else {
-      // If the product list is not empty, add the product to the list and update the total amount
-      List<ProductEntity> updatedProductList =
-          List.from(shoppingCartEntity!.proudctList)..add(productToAdd);
+    // send data to the viewmodel
+    ref.watch(shoppingCartViewModelProvider).addToCart(
+        cartList: [...ShoppingCartState.shoppingCartEntity.cart, addedCart],
+        totalAmount: totalPrice + previousAmount);
 
-      // Calculate the new total amount
-      double updatedTotalAmount =
-          shoppingCartEntity!.totalAmount + productToAdd.price;
+    // reset counter
+    _resetCounter();
 
-      // Update the shoppingCartEntity with the new product list and total amount
-      shoppingCartEntity = ShoppingCartEntity(
-        id: shoppingCartEntity!.id,
-        proudctList: updatedProductList,
-        totalAmount: updatedTotalAmount,
-      );
-    }
-    print('shopping: $shoppingCartEntity');
+    Fluttertoast.showToast(
+        msg: 'Added to cart.', backgroundColor: Colors.green);
   }
 
   void _resetCounter() {
@@ -203,7 +189,7 @@ class _SingleProductViewState extends ConsumerState<SingleProductView> {
                       );
                       return;
                     }
-                    _addToCart(_product);
+                    _addToCart();
                   },
                   child: Text(
                     'Add to Cart',
