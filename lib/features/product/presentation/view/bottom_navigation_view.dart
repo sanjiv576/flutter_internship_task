@@ -6,7 +6,6 @@ import 'package:online_store/features/product/presentation/view/nav_bar/homepage
 import 'package:online_store/features/product/presentation/view/nav_bar/setting_view.dart';
 import 'package:online_store/features/product/presentation/view/singel_product_view.dart';
 
-import 'nav_bar/home_view.dart';
 import 'nav_bar/search_view.dart';
 
 // select index as the user clicks
