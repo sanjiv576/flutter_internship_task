@@ -1,10 +1,16 @@
 import 'dart:developer';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../config/constants/api_endpoints.dart';
+import '../../../../../core/common/widget/snackbar_messages.dart';
+import '../../../../shopping/domain/entity/shopping_entity.dart';
+import '../../../../shopping/presentation/state/shopping_cart_state.dart';
 import '../../../data/data_source/remote/networking.dart';
 import '../../viewmodel/product_viewmodel.dart';
+import '../../widget/cart_bottom_sheet_widget.dart';
 import '../../widget/categories_widget.dart';
 import '../../widget/product_card_widget.dart';
 
@@ -20,7 +26,6 @@ class _HomeState extends ConsumerState<HomepageView> {
 
   late double width;
   late double height;
-  String categoryUrl = 'https://fakestoreapi.com/products/categories';
   late Future<List<dynamic>>? _categoriesFuture;
 
   // late Future<List<dynamic>>? _products;
@@ -35,34 +40,14 @@ class _HomeState extends ConsumerState<HomepageView> {
 
   Future<List<dynamic>> getCategoryData() async {
     try {
-      OnlineStore onlineStore = OnlineStore(url: categoryUrl);
+      OnlineStore onlineStore = OnlineStore(url: ApiEndpoints.getAllCategories);
       List<dynamic> categories = await onlineStore.fetchCategoryData();
-      print('Category length: ${categories.length}');
+      log('Category length: ${categories.length}');
       return categories;
     } catch (err) {
-      print('Error ca: $err');
       return []; // Handle the error appropriately
     }
   }
-
-  // Future<List<dynamic>> getProductData() async {
-  //   OnlineStore onlineStore =
-  //       OnlineStore(url: 'https://fakestoreapi.com/products');
-
-  //   var products = await onlineStore.fetchProductData();
-
-  //   if (products != null) {
-  //     // for (int i = 0; i < products.length; i++) {
-  //     //   print('id: ${products[i].id}');
-  //     //   print('Product ${i + 1}: ${products[i]}');
-  //     //   print('---------------');
-  //     // }
-
-  //     // _products = products;
-  //     return products;
-  //   }
-  //   return [];
-  // }
 
   final _verticalGap = const SizedBox(height: 30);
   final _horizontalGap = const SizedBox(width: 20);
@@ -74,15 +59,43 @@ class _HomeState extends ConsumerState<HomepageView> {
     // get sizes of the device, then, send to device size class
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    print('Width: $width');
-    print('Height: $height');
+    log('Width: $width');
+    log('Height: $height');
 
     final productState = ref.watch(productViewModelProvider);
     if (productState.products != [] && productState.products != null) {
       log('Total len of products from clean arch = HOmepage: ${productState.products!.length}');
     }
 
+    void showCart() {
+      ShoppingCartEntity shopping = ShoppingCartState.shoppingCartEntity;
+
+      if (shopping.cart.isEmpty) {
+        showSnackbarMsg(
+            context: context,
+            targetTitle: 'Info',
+            targetMessage: 'Please, add to cart some products.',
+            type: ContentType.help);
+        return;
+      }
+      showModalBottomSheet(
+        context: context,
+        builder: (context) => CartBottomSheetWidget(shopping: shopping),
+      );
+    }
+
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Title(color: Colors.pink, child: const Text('View Cart')),
+          // const Text('View Cart'),
+          IconButton(
+              onPressed: () {
+                showCart();
+              },
+              icon: const Icon(Icons.shopping_cart_checkout))
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -99,7 +112,7 @@ class _HomeState extends ConsumerState<HomepageView> {
                 ),
               ),
               _verticalGap,
-               if (productState.isLoading) ...{
+              if (productState.isLoading) ...{
                 const Center(
                   child: CircularProgressIndicator(),
                 ),
@@ -108,13 +121,13 @@ class _HomeState extends ConsumerState<HomepageView> {
                   child: Text(productState.error.toString()),
                 )
               } else ...{
-              CategoriesWidget(
-                categoriesFuture: _categoriesFuture,
-                horizontalGap: _horizontalGap,
-                verticalGap: const SizedBox(
-                  height: 10,
+                CategoriesWidget(
+                  categoriesFuture: _categoriesFuture,
+                  horizontalGap: _horizontalGap,
+                  verticalGap: const SizedBox(
+                    height: 10,
+                  ),
                 ),
-              ),
               },
               _verticalGap,
               const Text(
@@ -126,9 +139,7 @@ class _HomeState extends ConsumerState<HomepageView> {
                 ),
               ),
               _verticalGap,
-              _verticalGap,
-              // Flexible(
-              // flex: 4,
+
               if (productState.isLoading) ...{
                 const Center(
                   child: CircularProgressIndicator(),
@@ -154,22 +165,6 @@ class _HomeState extends ConsumerState<HomepageView> {
                     },
                   ),
                 ),
-
-                // Expanded(
-                //   child: ListView.separated(
-                //     itemBuilder: ((context, index) {
-                //       return Container(
-                //         color: Colors.pink,
-                //         width: 40,
-                //         height: 50,
-                //       );
-                //     }),
-                //     separatorBuilder: ((context, index) {
-                //       return const Divider();
-                //     }),
-                //     itemCount: productState.products!.length,
-                //   ),
-                // )
               },
               // ),
             ],
